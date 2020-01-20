@@ -1,4 +1,4 @@
-package apis_test
+package handlers_test
 
 import (
 	"testing"
@@ -9,5 +9,5 @@ import (
 
 func TestApi(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Api Suite")
+	RunSpecs(t, "Todo Handlers Suite")
 }

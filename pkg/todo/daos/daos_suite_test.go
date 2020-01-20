@@ -9,5 +9,5 @@ import (
 
 func TestDaos(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Daos Suite")
+	RunSpecs(t, "Todo daos Suite")
 }

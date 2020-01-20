@@ -1,4 +1,4 @@
-package apis
+package handlers
 
 import (
 	"encoding/json"
@@ -15,7 +15,7 @@ import (
 	"net/http/httptest"
 )
 
-var _ = Describe("Api", func() {
+var _ = Describe("Todo Handlers", func() {
 	var (
 		r *gin.Engine
 		h TodoHandler
@@ -56,7 +56,6 @@ var _ = Describe("Api", func() {
 
 			})
 		})
-
 
 		Context("without record", func() {
 			It("should not found a todo", func() {

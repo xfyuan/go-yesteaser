@@ -9,7 +9,7 @@ import (
 	"github.com/xfyuan/go-yesteaser/pkg/todo"
 )
 
-var _ = Describe("Daos", func() {
+var _ = Describe("Todo daos", func() {
 	var (
 		dao todo.Dao
 		data *models.Todo
