@@ -1,4 +1,4 @@
-package daos
+package services
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,18 +7,19 @@ import (
 	"github.com/xfyuan/go-yesteaser/pkg/gspec"
 	"github.com/xfyuan/go-yesteaser/pkg/models"
 	"github.com/xfyuan/go-yesteaser/pkg/todo"
+	"github.com/xfyuan/go-yesteaser/pkg/todo/daos"
 )
 
-var _ = Describe("Todo Daos", func() {
+var _ = Describe("Todo Services", func() {
 	var (
-		dao todo.Dao
+		service todo.Service
 		data *models.Todo
 		err error
 	)
 
 	BeforeEach(func() {
 		app.DB = gspec.ResetDB()
-		dao = NewTodoDao(app.DB)
+		service = NewTodoService(daos.NewTodoDao(app.DB))
 	})
 
 	Describe("with todo records", func() {
@@ -28,7 +29,7 @@ var _ = Describe("Todo Daos", func() {
 					Title:       "Golang",
 					Description: "Google's language",
 				})
-				data, err = dao.Get(1)
+				data, err = service.Get(1)
 			})
 
 			It("should has no error", func() {
@@ -43,7 +44,7 @@ var _ = Describe("Todo Daos", func() {
 
 		Context("when not exists", func() {
 			BeforeEach(func() {
-				data, err = dao.Get(9999)
+				data, err = service.Get(9999)
 			})
 
 			It("should has error", func() {

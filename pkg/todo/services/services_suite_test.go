@@ -1,4 +1,4 @@
-package daos_test
+package services_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestDaos(t *testing.T) {
+func TestServices(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Todo Daos Suite")
+	RunSpecs(t, "Todo Services Suite")
 }
