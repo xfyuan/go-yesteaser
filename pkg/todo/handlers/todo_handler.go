@@ -2,7 +2,10 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"github.com/xfyuan/go-yesteaser/pkg/todo"
+	_todoDaos "github.com/xfyuan/go-yesteaser/pkg/todo/daos"
+	_todoServices "github.com/xfyuan/go-yesteaser/pkg/todo/services"
 	"net/http"
 	"strconv"
 )
@@ -13,6 +16,11 @@ type ResponseError struct {
 
 type TodoHandler struct {
 	service todo.Service
+}
+
+func Initialize(db *gorm.DB, r *gin.Engine)  {
+	s := _todoServices.NewTodoService(_todoDaos.NewTodoDao(db))
+	NewTodoHandler(r, s)
 }
 
 func NewTodoHandler(r *gin.Engine, s todo.Service) {
