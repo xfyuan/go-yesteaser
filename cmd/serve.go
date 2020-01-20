@@ -5,7 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"github.com/xfyuan/go-yesteaser/pkg/app"
 	"github.com/xfyuan/go-yesteaser/pkg/models"
 	"github.com/xfyuan/go-yesteaser/pkg/router"
 	"log"
@@ -18,24 +18,24 @@ var serveCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("starting http server ...")
 
-		dsn := generateDSN()
+		dsn := app.GenerateDSN()
 
-		db, dbErr := gorm.Open("postgres", dsn)
-		if dbErr != nil {
-			panic(dbErr)
+		app.DB, app.DBErr = gorm.Open("postgres", dsn)
+		if app.DBErr != nil {
+			panic(app.DBErr)
 		}
 
 		defer func() {
-			err := db.Close()
+			err := app.DB.Close()
 			if err != nil {
 				log.Fatal(err)
 			}
 		}()
 
-		db.AutoMigrate(&models.Todo{})
+		app.DB.AutoMigrate(&models.Todo{})
 		log.Println("Successfully connected to database")
 
-		r := router.Initialize(db)
+		r := router.Initialize(app.DB)
 
 		if err := r.Run(fmt.Sprintf(":%v", "1234")); err != nil {
 			panic(fmt.Errorf("gin run failed: [%s]", err))
@@ -45,15 +45,5 @@ var serveCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(serveCmd)
-}
-
-func generateDSN() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		viper.GetString("database.username"),
-		viper.GetString("database.password"),
-		viper.GetString("database.host"),
-		viper.GetString("database.port"),
-		viper.GetString("database.dbname"),
-	)
 }
 
