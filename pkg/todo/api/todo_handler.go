@@ -12,23 +12,23 @@ type ResponseError struct {
 }
 
 type TodoHandler struct {
-	ownService todo.Service
+	service todo.Service
 }
 
 func NewTodoHandler(r *gin.Engine, s todo.Service) {
 	handler := &TodoHandler{
-		ownService: s,
+		service: s,
 	}
 
-	v1 := r.Group("/api/v1")
+	v := r.Group("/api/v1")
 	{
-		v1.GET("/todos/:id", handler.Get)
+		v.GET("/todos/:id", handler.Show)
 	}
 }
 
-func (h *TodoHandler)Get(c *gin.Context)  {
+func (h *TodoHandler) Show(c *gin.Context)  {
 	id, _ := strconv.Atoi(c.Param("id"))
-	if data, err := h.ownService.Get(int64(id)); err != nil {
+	if data, err := h.service.Get(int64(id)); err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 	} else {
 		c.JSON(http.StatusOK, data)

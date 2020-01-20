@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"github.com/xfyuan/go-yesteaser/pkg/models"

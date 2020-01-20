@@ -2,15 +2,12 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/xfyuan/go-yesteaser/pkg/models"
-	_todoApi "github.com/xfyuan/go-yesteaser/pkg/todo/api"
-	_todoDao "github.com/xfyuan/go-yesteaser/pkg/todo/dao"
-	_todoService "github.com/xfyuan/go-yesteaser/pkg/todo/service"
+	"github.com/xfyuan/go-yesteaser/pkg/router"
 	"log"
 )
 
@@ -38,13 +35,7 @@ var serveCmd = &cobra.Command{
 		db.AutoMigrate(&models.Todo{})
 		log.Println("Successfully connected to database")
 
-		r := gin.New()
-		r.Use(gin.Logger())
-		r.Use(gin.Recovery())
-
-		td := _todoDao.NewTodoDao(db)
-		ts := _todoService.NewTodoService(td)
-		_todoApi.NewTodoHandler(r, ts)
+		r := router.Initialize(db)
 
 		if err := r.Run(fmt.Sprintf(":%v", "1234")); err != nil {
 			panic(fmt.Errorf("gin run failed: [%s]", err))
