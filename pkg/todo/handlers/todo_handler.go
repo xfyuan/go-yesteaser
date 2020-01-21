@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"github.com/xfyuan/go-yesteaser/pkg/middlewares"
 	"github.com/xfyuan/go-yesteaser/pkg/todo"
 	_todoDaos "github.com/xfyuan/go-yesteaser/pkg/todo/daos"
 	_todoServices "github.com/xfyuan/go-yesteaser/pkg/todo/services"
@@ -28,7 +29,7 @@ func NewTodoHandler(r *gin.Engine, s todo.Service) {
 		service: s,
 	}
 
-	v := r.Group("/api/v1")
+	v := r.Group("/api/v1").Use(middlewares.Auth())
 	{
 		v.GET("/todos/:id", handler.Show)
 	}

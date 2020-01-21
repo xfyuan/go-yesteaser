@@ -7,6 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/xfyuan/go-yesteaser/pkg/app"
 	"github.com/xfyuan/go-yesteaser/pkg/gspec"
+	"github.com/xfyuan/go-yesteaser/pkg/middlewares"
 	"github.com/xfyuan/go-yesteaser/pkg/models"
 	"github.com/xfyuan/go-yesteaser/pkg/todo/daos"
 	"github.com/xfyuan/go-yesteaser/pkg/todo/services"
@@ -23,7 +24,11 @@ var _ = Describe("Todo Handlers", func() {
 
 	BeforeEach(func() {
 		app.DB = gspec.ResetDB()
+
 		r = gspec.NewRouter()
+		r.Use(gspec.SetAuthHeader())
+		r.Use(middlewares.Auth())
+		
 		h = TodoHandler{
 			service: services.NewTodoService(daos.NewTodoDao(app.DB)),
 		}
