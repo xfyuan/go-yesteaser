@@ -2,6 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
+
 	"github.com/gin-gonic/gin"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -11,9 +15,6 @@ import (
 	"github.com/xfyuan/go-yesteaser/pkg/models"
 	"github.com/xfyuan/go-yesteaser/pkg/todo/daos"
 	"github.com/xfyuan/go-yesteaser/pkg/todo/services"
-	"io/ioutil"
-	"net/http"
-	"net/http/httptest"
 )
 
 var _ = Describe("Todo Handlers", func() {
@@ -28,7 +29,7 @@ var _ = Describe("Todo Handlers", func() {
 		r = gspec.NewRouter()
 		r.Use(gspec.SetAuthHeader())
 		r.Use(middlewares.Auth())
-		
+
 		h = TodoHandler{
 			service: services.NewTodoService(daos.NewTodoDao(app.DB)),
 		}
