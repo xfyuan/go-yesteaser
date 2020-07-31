@@ -2,10 +2,11 @@ package app
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/spf13/viper"
 	"os"
 	"path/filepath"
+
+	"github.com/jinzhu/gorm"
+	"github.com/spf13/viper"
 )
 
 // Config is global object that holds all application level variables.
@@ -14,7 +15,7 @@ var DB *gorm.DB
 var DBErr error
 
 // LoadConfig loads config from files
-func LoadConfig(configDir string)  {
+func LoadConfig(configDir string) {
 	viper.SetConfigType("yaml")
 
 	if configDir == "" {
@@ -24,6 +25,7 @@ func LoadConfig(configDir string)  {
 		}
 		configDir = filepath.Join(workPath, "config")
 	}
+	fmt.Printf("current config dir is: %s\n", configDir)
 
 	viper.AddConfigPath(configDir)
 	viper.SetConfigName("config")
@@ -36,6 +38,8 @@ func LoadConfig(configDir string)  {
 	}
 
 	env := viper.GetString("ENV")
+	fmt.Printf("current env is: %s\n", env)
+
 	if env == "" {
 		viper.SetConfigName("dev")
 	}
@@ -54,4 +58,3 @@ func GenerateDSN() string {
 		viper.GetString("database.dbname"),
 	)
 }
-

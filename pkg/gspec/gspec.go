@@ -14,8 +14,10 @@ import (
 )
 
 func init() {
-	if err := os.Setenv("YESTEA_ENV", "test"); err != nil {
-		panic(fmt.Errorf("set test env failed: [%s]", err))
+	if os.Getenv("YESTEA_ENV") == "" {
+		if err := os.Setenv("YESTEA_ENV", "test"); err != nil {
+			panic(fmt.Errorf("set test env failed: [%s]", err))
+		}
 	}
 
 	app.LoadConfig(RootPath() + "config")

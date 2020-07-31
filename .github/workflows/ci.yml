@@ -34,7 +34,5 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
     - name: Test
-      run: go test ./...
-      env:
-        YESTEA_ENV: ci
+      run: make ci
 

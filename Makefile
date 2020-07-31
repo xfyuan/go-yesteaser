@@ -11,5 +11,8 @@ lint:
 test:
 	YESTEA_ENV=test CGO_ENABLED=0 ginkgo ./...
 
+ci:
+	YESTEA_ENV=ci CGO_ENABLED=0 go test -v ./...
+
 SpecSteps = lint test
 spec: $(SpecSteps)
