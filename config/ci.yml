@@ -1,0 +1,7 @@
+apikey: ci_api_key
+database:
+  host: postgres
+  port: 5432
+  dbname: yestea_test
+  username: postgres
+  password: postgres
