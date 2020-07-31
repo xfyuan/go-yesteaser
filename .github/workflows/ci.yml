@@ -1,3 +1,7 @@
+env:
+  POSTGRES_HOST: localhost
+  YESTEA_ENV: ci
+
 on: push
 name: Test
 jobs:
@@ -34,4 +38,4 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
     - name: Test
-      run: YESTEA_ENV=ci go test ./...
+      run: go test ./...
